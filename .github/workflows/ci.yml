@@ -23,29 +23,48 @@ jobs:
           extensions: mbstring, pdo, curl, dom
           tools: composer
 
-      # Step 3: Install Dependencies
-      - name: Install Dependencies
+      # Step 3: Install PHP Dependencies
+      - name: Install PHP Dependencies
         run: |
           composer install
-          npm install
 
-      # Step 4: Build Production Assets
+      # Step 4: Install Node.js and Frontend Dependencies
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install JavaScript Dependencies
+        run: npm install
+
+      # Step 5: Code Quality Analysis for PHP (PHPStan)
+      - name: Run PHPStan (Code Analysis)
+        run: |
+          composer require --dev phpstan/phpstan
+          vendor/bin/phpstan analyse --level=max app
+
+      # Step 6: Code Quality Analysis for JavaScript (ESLint)
+      - name: Run ESLint (JS Code Analysis)
+        run: |
+          npm install eslint --save-dev
+          npx eslint resources/js
+
+      # Step 7: Build Production Assets
       - name: Build Production Assets
         run: npm run build
 
-      # Step 5: Set up environment file
+      # Step 8: Set up environment file
       - name: Set up .env file
         run: |
           cp .env.example .env
           php artisan key:generate
 
-      # Step 6: Run Database Migrations
+      # Step 9: Run Database Migrations
       - name: Run Database Migrations
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
         run: php artisan migrate --force
 
-      # Step 7: Run Tests
+      # Step 10: Run Tests
       - name: Run Tests
         run: php artisan test
