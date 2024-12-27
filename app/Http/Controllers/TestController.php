@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-class TestController extends Controller{
+class TestController extends Controller
+{
 
-    public function test(){
+    public function test(): int
+    {
         $num1 = 34;
         $num2 = 45;
-        return ($num1 + $num2 );  
+        return ($num1 + $num2);
     }
 
 }
