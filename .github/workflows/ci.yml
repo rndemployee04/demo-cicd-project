@@ -8,11 +8,10 @@ on:
 
 jobs:
   build-and-test:
-    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the code
+      # Step 1: Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -20,7 +19,7 @@ jobs:
       - name: Set Up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2  # Adjust to your Laravel app's PHP version
+          php-version: 8.1
           extensions: mbstring, pdo, curl, dom
           tools: composer
 
@@ -29,23 +28,24 @@ jobs:
         run: |
           composer install
           npm install
-          npm run dev
 
-      # Step 4: Set up environment file
+      # Step 4: Build Production Assets
+      - name: Build Production Assets
+        run: npm run build
+
+      # Step 5: Set up environment file
       - name: Set up .env file
         run: |
           cp .env.example .env
           php artisan key:generate
 
-      # Step 5: Run Migrations
+      # Step 6: Run Database Migrations
       - name: Run Database Migrations
-        run: |
-          php artisan migrate --force
         env:
           DB_CONNECTION: sqlite
-          DB_DATABASE: ":memory:"  # Use in-memory SQLite for tests
+          DB_DATABASE: ":memory:"
+        run: php artisan migrate --force
 
-      # Step 6: Run Tests
+      # Step 7: Run Tests
       - name: Run Tests
-        run: |
-          php artisan test
+        run: php artisan test
