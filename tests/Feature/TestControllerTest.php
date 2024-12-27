@@ -10,6 +10,6 @@ class TestControllerTest extends TestCase
     {
         $response = $this->get('/test');
         $response->assertStatus(200);
-        $response->assertSee('34');
+        $response->assertSee('79');
     }
 }
