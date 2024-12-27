@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 class TestController extends Controller{
 
     public function test(){
-        echo "This is a test for Github Action.";
+        $num1 = 34;
+        $num2 = 45;
+        return ($num1 + $num2 * $num1) / ($num2 % $num2);  
     }
 
 }
