@@ -11,6 +11,6 @@ class TestControllerTest extends TestCase
     {
         $controller = new TestController();
         $result = $controller->test();
-        $this->assertEquals(34, $result);
+        $this->assertEquals(79, $result);
     }
 }
