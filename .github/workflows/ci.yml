@@ -43,7 +43,7 @@ jobs:
           php artisan migrate --force
         env:
           DB_CONNECTION: sqlite
-          DB_DATABASE: :memory:  # Use in-memory SQLite for tests
+          DB_DATABASE: ":memory:"  # Use in-memory SQLite for tests
 
       # Step 6: Run Tests
       - name: Run Tests
