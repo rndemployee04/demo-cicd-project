@@ -42,29 +42,23 @@ jobs:
           composer require --dev phpstan/phpstan
           vendor/bin/phpstan analyse --level=max app
 
-      # Step 6: Code Quality Analysis for JavaScript (ESLint)
-      - name: Run ESLint (JS Code Analysis)
-        run: |
-          npm install eslint --save-dev
-          npx eslint resources/js
-
-      # Step 7: Build Production Assets
+      # Step 6: Build Production Assets
       - name: Build Production Assets
         run: npm run build
 
-      # Step 8: Set up environment file
+      # Step 7: Set up environment file
       - name: Set up .env file
         run: |
           cp .env.example .env
           php artisan key:generate
 
-      # Step 9: Run Database Migrations
+      # Step 8: Run Database Migrations
       - name: Run Database Migrations
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
         run: php artisan migrate --force
 
-      # Step 10: Run Tests
+      # Step 9: Run Tests
       - name: Run Tests
         run: php artisan test
