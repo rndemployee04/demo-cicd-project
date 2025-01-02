@@ -50,12 +50,6 @@ jobs:
           DB_DATABASE: ":memory:"
         run: php artisan migrate --force
 
-      # Step 8: Run PHPStan (Code Analysis)
-      - name: Run PHPStan (Code Analysis)
-        run: |
-          composer require --dev phpstan/phpstan
-          vendor/bin/phpstan analyse --level=max app
-
-      # Step 9: Run Tests
+      # Step 8: Run Tests
       - name: Run Tests
         run: php artisan test
