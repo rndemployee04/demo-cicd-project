@@ -3,6 +3,7 @@ name: Build and Test Laravel Application
 on:
   push:
     branches:
+      - main
       - staging
       - feature/*
 
